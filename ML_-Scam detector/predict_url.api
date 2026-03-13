@@ -1,0 +1,65 @@
+import joblib
+import pandas as pd
+import sys
+from make_scam_urls import extract_features
+
+MODEL_PATH = "../models/scam_detector.pkl"
+
+
+def load_model():
+    try:
+        payload = joblib.load(MODEL_PATH)
+        # Support both old format (bare model) and new format (dict)
+        if isinstance(payload, dict):
+            return payload["model"], payload["feature_cols"]
+        else:
+            # Old format — use default feature list
+            default_cols = [
+                "url_length", "domain_length", "path_length", "query_length",
+                "num_dots", "num_hyphens", "num_digits", "num_special_chars",
+                "has_ip", "is_https", "has_php", "has_html", "has_exe",
+            ]
+            return payload, default_cols
+    except FileNotFoundError:
+        print(f"❌ Model not found at {MODEL_PATH}. Run train_model.py first.")
+        return None, None
+
+
+def predict(url: str):
+    model, feature_cols = load_model()
+    if model is None:
+        return
+
+    print(f"🔍 Scanning: {url}")
+
+    features = extract_features(url)
+    if features is None:
+        print("❌ Could not extract features from URL.")
+        return
+
+    df = pd.DataFrame([features])
+
+    # Fill any missing cols with 0 (handles extra Kaggle columns)
+    for col in feature_cols:
+        if col not in df.columns:
+            df[col] = 0
+
+    X = df[feature_cols]
+
+    prediction  = model.predict(X)[0]
+    probability = model.predict_proba(X)[0][1]
+
+    if prediction == 1:
+        print(f"🚫 DANGER: Scam/Malware URL detected! (Confidence: {probability:.1%})")
+    else:
+        print(f"✅ SAFE: Looks like a normal URL. (Confidence: {1 - probability:.1%})")
+
+
+if __name__ == "__main__":
+    if len(sys.argv) > 1:
+        predict(sys.argv[1])
+    else:
+        print("--- Test 1 (Safe) ---")
+        predict("https://www.google.com")
+        print("\n--- Test 2 (Malicious) ---")
+        predict("http://192.168.1.55/bin.sh")

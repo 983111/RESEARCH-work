@@ -1,0 +1,91 @@
+{
+  "threshold": 0.999,
+  "features": [
+    "has_urgency",
+    "has_money",
+    "has_sensitive",
+    "has_off_platform",
+    "has_threat",
+    "has_legitimacy_marker",
+    "text_length",
+    "exclamation_count",
+    "question_count",
+    "uppercase_ratio",
+    "digit_ratio",
+    "char_entropy",
+    "avg_word_length",
+    "punctuation_density",
+    "urgency_density",
+    "money_density",
+    "sensitive_density",
+    "num_urls",
+    "url_density",
+    "ip_url",
+    "url_shortener",
+    "risky_tld",
+    "domain_spoof",
+    "verified_domain"
+  ],
+  "n_features": 24,
+  "test_metrics": {
+    "precision": 1.0,
+    "recall": 0.9786,
+    "f1": 0.9892,
+    "accuracy": 0.9893,
+    "roc_auc": 0.9957
+  },
+  "feature_importances": {
+    "has_urgency": 0.20469994044518725,
+    "has_money": 0.04671961602341039,
+    "has_sensitive": 0.03013239775166449,
+    "has_off_platform": 0.0258072845654257,
+    "has_threat": 0.005048521386795954,
+    "has_legitimacy_marker": 0.0009539512635545733,
+    "text_length": 0.03723957425242958,
+    "exclamation_count": 0.0002116216853323723,
+    "question_count": 0.0007880944635892187,
+    "uppercase_ratio": 0.042402755233495126,
+    "digit_ratio": 0.06470356680351723,
+    "char_entropy": 0.048006518277251276,
+    "avg_word_length": 0.02408604258538644,
+    "punctuation_density": 0.05041570769911811,
+    "urgency_density": 0.15136134511882315,
+    "money_density": 0.054486251679954786,
+    "sensitive_density": 0.07001268628888349,
+    "num_urls": 0.002961889275480111,
+    "url_density": 0.00025735782859551566,
+    "ip_url": 0.0,
+    "url_shortener": 0.11275589605076768,
+    "risky_tld": 0.017074443862519648,
+    "domain_spoof": 0.0029852893322747155,
+    "verified_domain": 0.006889248126543259
+  },
+  "cv_results": {
+    "Logistic Regression": {
+      "f1_mean": 0.9693900264240025,
+      "f1_std": 0.008155148266254866,
+      "recall_mean": 0.95,
+      "recall_std": 0.009035079029052533,
+      "auc_mean": 0.9965408163265307,
+      "auc_std": 0.001188852147831904
+    },
+    "Random Forest": {
+      "f1_mean": 0.984026293384322,
+      "f1_std": 0.002941933622787315,
+      "recall_mean": 0.9685714285714285,
+      "recall_std": 0.005714285714285694,
+      "auc_mean": 0.9987142857142857,
+      "auc_std": 0.000644878584054069
+    },
+    "Gradient Boosting": {
+      "f1_mean": 0.9956986494236023,
+      "f1_std": 0.0041936579448165695,
+      "recall_mean": 0.9942857142857143,
+      "recall_std": 0.00832993127835044,
+      "auc_mean": 0.9994999999999999,
+      "auc_std": 0.0006326530612245077
+    }
+  },
+  "model_type": "CalibratedClassifierCV(GradientBoosting, isotonic)",
+  "note": "manual_score removed \u2014 no label leakage"
+}
