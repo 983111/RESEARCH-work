@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://innterpretablescamdetection.vercel.app/sitemap.xml
